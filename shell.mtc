@@ -1,0 +1,111 @@
+from tokenizer use Tokenizer, ShellError
+
+// External declarations
+external void mt_print(string s)
+external string read_line()
+external string get_cwd()
+external string list_dir(string path)
+external string read_file(string path)
+external int set_cwd(string path)
+external void heap_reset()
+
+// Simple built-in command handler
+int run_builtin(string cmd, string args) {
+    if (cmd == "help") {
+        mt_print("mt-shell builtins:\n")
+        mt_print("  help       - show this help\n")
+        mt_print("  ls [path]  - list directory\n")
+        mt_print("  cd <path>  - change directory\n")
+        mt_print("  cat <file> - print file contents\n")
+        mt_print("  pwd        - print working directory\n")
+        mt_print("  echo <...> - print arguments\n")
+        mt_print("  exit       - exit shell\n")
+        return 0
+    }
+
+    if (cmd == "pwd") {
+        string cwd = get_cwd()
+        mt_print(cwd)
+        mt_print("\n")
+        return 0
+    }
+
+    if (cmd == "ls") {
+        string path = get_cwd()
+        if (args.length() > 0) {
+            set path = args
+        }
+        string entries = list_dir(path)
+        mt_print(entries)
+        return 0
+    }
+
+    if (cmd == "cd") {
+        if (args.length() == 0) {
+            set args = "/"
+        }
+        int result = set_cwd(args)
+        if (result != 0) {
+            mt_print("cd: no such directory: ")
+            mt_print(args)
+            mt_print("\n")
+        }
+        return result
+    }
+
+    if (cmd == "cat") {
+        if (args.length() == 0) {
+            mt_print("cat: missing file argument\n")
+            return 1
+        }
+        string content = read_file(args)
+        mt_print(content)
+        return 0
+    }
+
+    if (cmd == "echo") {
+        mt_print(args)
+        mt_print("\n")
+        return 0
+    }
+
+    return -1  // Not a builtin
+}
+
+// Main shell loop - called from kernel
+int shell_main() {
+    mt_print("mt-shell v0.1 - PHOBOS\n")
+    mt_print("Type 'help' for available commands\n\n")
+
+    bool running = true
+    while (running) {
+        // Reset heap at start of each command to prevent exhaustion
+        heap_reset()
+        
+        // Print prompt
+        string cwd = get_cwd()
+        mt_print(cwd)
+        mt_print(" $ ")
+
+        // Read input
+        string input = read_line()
+        
+        // Debug: show what we got
+        mt_print("[got input]\n")
+        
+        // Try direct command match without parsing
+        int result = run_builtin(input, "")
+        if (result == -1) {
+            if (input == "exit") {
+                set running = false
+            } else {
+                mt_print("unknown: ")
+                mt_print(input)
+                mt_print("\n")
+            }
+        }
+    }
+
+    mt_print("Goodbye!\n")
+    return 0
+}
