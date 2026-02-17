@@ -12,7 +12,7 @@ external void heap_reset()
 // Simple built-in command handler
 int run_builtin(string cmd, string args) {
     if (cmd == "help") {
-        mt_print("mt-shell builtins:\n")
+        mt_print("BRIDGE builtins:\n")
         mt_print("  help       - show this help\n")
         mt_print("  ls [path]  - list directory\n")
         mt_print("  cd <path>  - change directory\n")
@@ -74,7 +74,7 @@ int run_builtin(string cmd, string args) {
 
 // Main shell loop - called from kernel
 int shell_main() {
-    mt_print("mt-shell v0.1 - PHOBOS\n")
+    mt_print("BRIDGE v0.1 - PHOBOS\n")
     mt_print("Type 'help' for available commands\n\n")
 
     bool running = true

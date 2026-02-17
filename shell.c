@@ -1,4 +1,4 @@
-// PHOBOS Shell - Pure C implementation
+// BRIDGE shell - Pure C implementation
 // Replaces mt-lang shell due to memory issues
 
 #include <stdint.h>
@@ -96,7 +96,7 @@ static void parse_input(const char* input) {
 // ============================================================================
 
 static int cmd_help(void) {
-    mt_print("phobos-shell builtins:\n");
+    mt_print("BRIDGE builtins:\n");
     mt_print("  help        - show this help\n");
     mt_print("  ls [path]   - list directory\n");
     mt_print("  cd <path>   - change directory\n");
@@ -670,7 +670,7 @@ static char* shell_read_line(void) {
 
 int shell_main(void) {
     cmd_clear();
-    mt_print("phobos-shell v0.2 - PHOBOS\n");
+    mt_print("BRIDGE v0.2 - PHOBOS\n");
     mt_print("Type 'help' for available commands\n\n");
     
     while (1) {
@@ -747,7 +747,7 @@ int shell_main(void) {
 
             int r = exec_program(path, argv);
             if (r == -127) {
-                mt_print("phobos-shell: command not found: ");
+                mt_print("bridge: command not found: ");
                 mt_print(cmd_buf);
                 mt_print("\n");
             } else if (r != 0) {} // let the command return an error rather than the shell

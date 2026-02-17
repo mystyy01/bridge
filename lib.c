@@ -1,4 +1,4 @@
-// Bare-metal C library for mt-shell on PHOBOS
+// Bare-metal C library for BRIDGE on PHOBOS
 // Links against VANTA kernel
 
 #include "drivers/keyboard.h"

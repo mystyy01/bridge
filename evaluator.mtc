@@ -282,7 +282,7 @@ class Evaluator {
 
         // help
         if (equals(name, "help")) {
-            string help_text = "mt-shell builtins:\n"
+            string help_text = "BRIDGE builtins:\n"
             set help_text = help_text + "  echo [args...]  - print arguments\n"
             set help_text = help_text + "  cd [path]       - change directory\n"
             set help_text = help_text + "  pwd             - print working directory\n"
@@ -307,7 +307,7 @@ class Evaluator {
             if (file_exists(name)) {
                 return exec_program(name, args)
             }
-            print("mt-shell: no such file or directory: " + name + "\n")
+            print("bridge: no such file or directory: " + name + "\n")
             return 127
         }
         
@@ -327,7 +327,7 @@ class Evaluator {
         }
 
         // Command not found
-        print("mt-shell: command not found: " + name + "\n")
+        print("bridge: command not found: " + name + "\n")
         return 127
     }
 
