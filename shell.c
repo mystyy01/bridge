@@ -98,19 +98,28 @@ static void parse_input(const char* input) {
 static int cmd_help(void) {
     mt_print("BRIDGE builtins:\n");
     mt_print("  help        - show this help\n");
+    mt_print("  echo [text] - print text\n");
     mt_print("  ls [path]   - list directory\n");
     mt_print("  cd <path>   - change directory\n");
     mt_print("  mkdir <dir> - create directory\n");
     mt_print("  pwd         - print working directory\n");
     mt_print("  clear       - clear screen\n");
     mt_print("  exit        - exit shell\n");
-    mt_print("External: echo, cat, touch, rm, rmdir\n");
+    mt_print("External: cat, touch, rm, rmdir\n");
     return 0;
 }
 
 static int cmd_pwd(void) {
     char* cwd = get_cwd();
     mt_print(cwd);
+    mt_print("\n");
+    return 0;
+}
+
+static int cmd_echo(const char* text) {
+    if (text && text[0] != '\0') {
+        mt_print(text);
+    }
     mt_print("\n");
     return 0;
 }
@@ -718,6 +727,8 @@ int shell_main(void) {
             cmd_help();
         } else if (str_eq(cmd_buf, "pwd")) {
             cmd_pwd();
+        } else if (str_eq(cmd_buf, "echo")) {
+            cmd_echo(args_buf);
         } else if (str_eq(cmd_buf, "ls")) {
             cmd_ls(args_buf);
         } else if (str_eq(cmd_buf, "cd")) {
