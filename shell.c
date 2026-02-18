@@ -761,7 +761,13 @@ int shell_main(void) {
                 mt_print("bridge: command not found: ");
                 mt_print(cmd_buf);
                 mt_print("\n");
-            } else if (r != 0) {} // let the command return an error rather than the shell
+            } else if (r != 0) {
+                mt_print("bridge: ");
+                mt_print(cmd_buf);
+                mt_print(" exited with ");
+                print_int(r);
+                mt_print("\n");
+            }
         }
     }
     
